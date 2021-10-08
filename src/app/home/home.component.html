@@ -1,0 +1,23 @@
+<div *ngIf="spotifyApi.isAuthenticated()" class="m-2">
+    <div class="input-group m-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="">{{ albumCount }} albums selected among {{ totalAlbumCount }} albums</span>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" (click)="fetchAlbums()">Again</button>
+        </div>
+    </div>
+    
+    <div class="card-group">
+        <div class="col-12 col-sm-6 col-md-3" *ngFor="let saved of albums">
+            <div class="card text-white bg-dark mb-3 border-0">
+                <img class="card-img-top" [src]="saved.album.images[1].url" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">{{ saved.album.name }}</h5>
+                  <p class="card-text"><span *ngFor="let artist of saved.album.artists">{{ artist.name }} </span></p>
+                  <a class="btn btn-success" (click)="play(saved.album.uri)">Play</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
