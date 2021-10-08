@@ -7,6 +7,31 @@
 			"problemMatcher": [],
 			"label": "npm: start",
 			"detail": "ng serve"
+		},
+		{
+			"type": "npm",
+			"script": "test",
+			"group": "test",
+			"problemMatcher": [],
+			"label": "npm: test",
+			"detail": "ng test"
+		},
+		{
+			"type": "npm",
+			"script": "build",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build",
+			"detail": "ng build"
+		},
+		{
+			"label": "deploy",
+			"type": "shell",
+			"command": "bash.exe",
+			"args": [
+				"deploy.sh"
+			],
+			"problemMatcher": []
 		}
 	]
 }
