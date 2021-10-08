@@ -1,4 +1,4 @@
-<div *ngIf="spotifyApi.isAuthenticated()" class="m-2">
+<div *ngIf="spotifyApi.isAuthenticated(); else loggedOut" class="m-2">
     <div class="input-group m-3">
         <div class="input-group-prepend">
             <span class="input-group-text" id="">{{ albumCount }} albums selected among {{ totalAlbumCount }} albums</span>
@@ -21,3 +21,10 @@
         </div>
     </div>
 </div>
+
+<ng-template #loggedOut>
+    <div class="jumbotron">
+        <h1 class="display-4">Hello, fellow listener!</h1>
+        <p class="lead">Connect your Spotify account to start browsing music randomly!</p>
+    </div>
+</ng-template>
