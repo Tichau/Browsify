@@ -8,7 +8,9 @@ import { SHA256 } from 'crypto-js';
     providedIn: 'root'
 })
 export class SpotifyApiService {
-    public readonly clientId: string = '1091f9db9b7d4f51b47f57b3a766c0dc';
+    public userInfo: UserInfo | null;
+
+    private readonly clientId: string = '1091f9db9b7d4f51b47f57b3a766c0dc';
     private readonly scopes: string[] = [
         "user-library-read",
         "user-modify-playback-state"
@@ -20,6 +22,12 @@ export class SpotifyApiService {
     constructor(private http: HttpClient) {
         this.accessToken = window.localStorage.getItem('accessToken');
         this.refreshToken = window.localStorage.getItem('refreshToken');
+        const userInfoString = window.localStorage.getItem('userInfo');
+        if (userInfoString !== null) {
+            this.userInfo = JSON.parse(userInfoString);
+        } else {
+            this.userInfo = null;
+        }
     }
     
     public isAuthenticated(): boolean {
@@ -78,6 +86,8 @@ export class SpotifyApiService {
         window.localStorage.removeItem('accessToken');
         this.refreshToken = null;
         window.localStorage.removeItem('refreshToken');
+        this.userInfo = null;
+        window.localStorage.removeItem('userInfo');
     }
 
     public askForCode(redirectUri: string) {
@@ -118,6 +128,12 @@ export class SpotifyApiService {
         window.localStorage.setItem('accessToken', this.accessToken);
         this.refreshToken = <string>response['refresh_token'];
         window.localStorage.setItem('refreshToken', this.refreshToken);
+
+        const profile = await this.get<SpotifyApi.UserObjectPrivate>('me');
+        if (profile.display_name) {
+            this.userInfo = new UserInfo(profile.display_name, profile.images ? profile.images[0].url : undefined);
+            window.localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
+        }
     }
 
     public async refreshTokenFromToken() {
@@ -189,5 +205,15 @@ export class SpotifyApiService {
         // Then convert the base64 encoded to base64url encoded: (replace + with -, replace / with _, trim trailing =)
         return btoa(String.fromCharCode.apply(null, <number[]><any>new Uint8Array(array)))
             .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+}
+
+export class UserInfo {
+    public name: string;
+    public imageUrl: string | undefined;
+
+    constructor(userName: string, imageUrl?: string) {
+        this.name = userName;
+        this.imageUrl = imageUrl;
     }
 }
