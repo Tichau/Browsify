@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SpotifyApiService } from './spotify-api.service';
 
 @Component({
     selector: 'app-root',
@@ -7,8 +6,8 @@ import { SpotifyApiService } from './spotify-api.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    title = 'spotify-browser';
+    title = 'Browsify';
 
-    constructor(public spotifyApi: SpotifyApiService) {
+    constructor() {
     }
 }
