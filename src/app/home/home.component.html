@@ -1,11 +1,11 @@
 <div *ngIf="spotifyApi.isAuthenticated(); else loggedOut" class="m-2">
     <div class="input-group m-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="">{{ albumCount }} albums selected among {{ totalAlbumCount }} albums</span>
-        </div>
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="fetchAlbums()">Again</button>
-        </div>
+        <p class="lead">
+            <button class="btn btn-outline-secondary mr-2" type="button" (click)="fetchAlbums()">
+                <span class="oi oi-reload"></span>
+            </button>
+            Select {{ albumCount }} albums randomly among the {{ totalAlbumCount }} albums saved in your Spotify library.
+        </p>
     </div>
     
     <div class="card-group">
