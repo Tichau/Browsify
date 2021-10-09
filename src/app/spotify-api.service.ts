@@ -125,15 +125,9 @@ export class SpotifyApiService {
 
         const response = await this.http.post<any>('https://accounts.spotify.com/api/token', body.toString(), { headers }).toPromise();
         this.accessToken = <string>response['access_token'];
-        window.localStorage.setItem('accessToken', this.accessToken);
         this.refreshToken = <string>response['refresh_token'];
-        window.localStorage.setItem('refreshToken', this.refreshToken);
 
-        const profile = await this.get<SpotifyApi.UserObjectPrivate>('me');
-        if (profile.display_name) {
-            this.userInfo = new UserInfo(profile.display_name, profile.images ? profile.images[0].url : undefined);
-            window.localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
-        }
+        await this.onTokenRefreshed(true);
     }
 
     public async refreshTokenFromToken() {
@@ -153,9 +147,9 @@ export class SpotifyApiService {
         const response = await this.http.post<any>('https://accounts.spotify.com/api/token', body.toString(), { headers }).toPromise()
 
         this.accessToken = <string>response.access_token;
-        window.localStorage.setItem('accessToken', this.accessToken);
         this.refreshToken = <string>response.refresh_token;
-        window.localStorage.setItem('refreshToken', this.refreshToken);
+
+        await this.onTokenRefreshed(false);
     }
 
     private generateRandomString(length: number): string {
@@ -206,14 +200,44 @@ export class SpotifyApiService {
         return btoa(String.fromCharCode.apply(null, <number[]><any>new Uint8Array(array)))
             .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     }
+
+    private async onTokenRefreshed(firstConnection: boolean) {
+        if (this.accessToken == null || this.refreshToken == null) {
+            throw new Error("Token is null");
+        }
+
+        window.localStorage.setItem('accessToken', this.accessToken);
+        window.localStorage.setItem('refreshToken', this.refreshToken);
+        
+        if (firstConnection) {
+            const profile = await this.get<SpotifyApi.UserObjectPrivate>('me');
+            if (profile.display_name) {
+                this.userInfo = new UserInfo(profile.display_name, profile.images ? profile.images[0].url : undefined);
+            } else {
+                this.userInfo = new UserInfo('unknown');
+            }
+        }
+
+        if (this.userInfo == null) {
+            throw new Error("UserInfo must exists at this point.");
+        }
+
+        // Refresh and cache number of saved albums.
+        const response = await this.get<SpotifyApi.PagingObject<SpotifyApi.SavedAlbumObject>>('me/albums?limit=1');
+        this.userInfo.savedAlbumCount = response.total;
+
+        window.localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
+    }
 }
 
 export class UserInfo {
     public name: string;
     public imageUrl: string | undefined;
+    public savedAlbumCount: number;
 
     constructor(userName: string, imageUrl?: string) {
         this.name = userName;
         this.imageUrl = imageUrl;
+        this.savedAlbumCount = NaN;
     }
 }

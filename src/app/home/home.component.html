@@ -4,7 +4,7 @@
             <button class="btn btn-outline-secondary mr-2" type="button" (click)="fetchAlbums()">
                 <span class="oi oi-reload"></span>
             </button>
-            Select {{ albumCount }} albums randomly among the {{ totalAlbumCount }} albums saved in your Spotify library.
+            Select {{ albumCount }} albums randomly among the {{ spotifyApi.userInfo?.savedAlbumCount }} albums saved in your Spotify library.
         </p>
     </div>
     
