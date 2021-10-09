@@ -9,7 +9,7 @@
     </div>
     
     <div class="card-group">
-        <div class="col-12 col-sm-6 col-md-3" *ngFor="let saved of albums">
+        <div class="col-12 col-sm-6 col-md-3 col-xl-2" *ngFor="let saved of albums">
             <div class="card text-white bg-dark mb-3 border-0">
                 <img class="card-img-top" [src]="saved.album.images[1].url" alt="Card image cap">
                 <a class="btn btn-success" (click)="play(saved.album.uri)"><span class="oi oi-media-play"></span></a>
