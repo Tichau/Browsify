@@ -28,14 +28,30 @@ npm run build
 
 if [ $? != 0 ]
 then
-    echo "Build failed. Cancel deployment."
+    echo "Build failed."
     exit 1
 fi
 
 echo ""
 echo "Deploy..."
+echo ""
 
-scp -r dist/spotify-browser/ pi@alfredo:/var/www/html/browsify
+echo "Clean old version..."
+ssh pi@alfredo "cd /var/www/html/browsify && rm -rf *"
+if [ $? != 0 ]
+then
+    echo "Failed to connect to server."
+    exit 2
+fi
+
+echo ""
+echo "Deploy new version..."
+scp -r dist/spotify-browser/** pi@alfredo:/var/www/html/browsify
+if [ $? != 0 ]
+then
+    echo "Failed to deploy on server."
+    exit 3
+fi
 
 echo ""
 echo "Commit..."
@@ -43,3 +59,5 @@ echo ""
 
 git add package.json
 git commit -m "Publish v$newVersion"
+
+echo "Deployment succeeded!"
