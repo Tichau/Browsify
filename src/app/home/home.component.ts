@@ -23,14 +23,6 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    public play(spotifyUri: string) {
-        let body = {
-            context_uri: spotifyUri
-        };
-
-        this.spotifyApi.put(`me/player/play`, body);
-    }
-
     public async fetchAlbums() {
         if (this.spotifyApi.userInfo == null) {
             throw new Error('User should be connected to fetch albums.');

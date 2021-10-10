@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
+import { AlbumCardComponent } from './album-card/album-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthenticationComponent,
     HomeComponent,
-    HeaderComponent
+    HeaderComponent,
+    AlbumCardComponent,
   ],
   imports: [
     BrowserModule,

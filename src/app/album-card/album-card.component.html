@@ -1,0 +1,8 @@
+<div class="card text-white bg-dark mb-3 border-0">
+    <img class="card-img-top" [src]="album.images[1].url" alt="Card image cap">
+    <a class="btn btn-success" (click)="play(album.uri)"><span class="oi oi-media-play"></span></a>
+    <div class="card-body">
+      <h5 class="card-title">{{ album.name }}</h5>
+      <p class="card-text"><span *ngFor="let artist of album.artists">{{ artist.name }} </span></p>
+    </div>
+</div>
