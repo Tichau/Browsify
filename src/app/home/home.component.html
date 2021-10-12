@@ -10,7 +10,7 @@
     
     <div class="card-group">
         <div class="col-12 col-sm-6 col-md-3 col-xl-2" *ngFor="let saved of albums">
-            <app-album-card [album]="saved.album"></app-album-card>
+            <app-album-card [album]="saved.album" [saved]="true"></app-album-card>
         </div>
     </div>
 </div>

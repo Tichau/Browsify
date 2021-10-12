@@ -13,6 +13,7 @@ export class SpotifyApiService {
     private readonly clientId: string = '1091f9db9b7d4f51b47f57b3a766c0dc';
     private readonly scopes: string[] = [
         "user-library-read",
+        "user-library-modify",
         "user-modify-playback-state",
         "user-follow-read",
     ]
@@ -59,7 +60,7 @@ export class SpotifyApiService {
         }
     }
 
-    public async put(uri: string, body: {}) {
+    public async put(uri: string, body?: {}) {
         if (this.accessToken === null) {
             throw new Error('Can\'t fetch api, user not connected.');
         }
@@ -76,6 +77,29 @@ export class SpotifyApiService {
             if (spotifyError.status === 401 && spotifyError.message === "The access token expired") {
                 await this.refreshTokenFromToken();
                 this.put(uri, body);
+            }
+
+            throw new Error(`Error while tring to get uri '${uri}'`);
+        }
+    }
+
+    public async delete(uri: string) {
+        if (this.accessToken === null) {
+            throw new Error('Can\'t fetch api, user not connected.');
+        }
+
+        const headers = new HttpHeaders()
+            .set('Authorization', `Bearer ${this.accessToken}`);
+
+        try {
+            await this.http.delete(`https://api.spotify.com/v1/${uri}`, { headers }).toPromise();
+        } catch (_e: unknown) {
+            const error = _e as HttpErrorResponse;
+            const spotifyError = error.error.error as SpotifyApi.ErrorObject;
+            console.log(spotifyError)
+            if (spotifyError.status === 401 && spotifyError.message === "The access token expired") {
+                await this.refreshTokenFromToken();
+                this.delete(uri);
             }
 
             throw new Error(`Error while tring to get uri '${uri}'`);
