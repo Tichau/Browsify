@@ -282,8 +282,8 @@ export class SpotifyApiService {
         }
 
         // Refresh and cache number of saved albums.
-        const savedAlbumResponse = await this.get<SpotifyApi.PagingObject<SpotifyApi.SavedAlbumObject>>('me/albums?limit=1');
-        this.userInfo.savedAlbumCount = savedAlbumResponse.total;
+        this.userInfo.savedTrackCount = (await this.get<SpotifyApi.PagingObject<SpotifyApi.SavedTrackObject>>('me/tracks?limit=1')).total;
+        this.userInfo.savedAlbumCount = (await this.get<SpotifyApi.PagingObject<SpotifyApi.SavedAlbumObject>>('me/albums?limit=1')).total;
         
         window.localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
     }
@@ -292,6 +292,7 @@ export class SpotifyApiService {
 export class UserInfo {
     public name: string;
     public imageUrl: string | undefined;
+    public savedTrackCount: number;
     public savedAlbumCount: number;
 
     public followedArtists: ArtistSummary[];
@@ -299,6 +300,7 @@ export class UserInfo {
     constructor(userName: string, imageUrl?: string) {
         this.name = userName;
         this.imageUrl = imageUrl;
+        this.savedTrackCount = NaN;
         this.savedAlbumCount = NaN;
         this.followedArtists = [];
     }

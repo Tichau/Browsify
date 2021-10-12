@@ -1,0 +1,16 @@
+<div *ngIf="spotifyApi.isAuthenticated()" class="m-2">
+    <div class="input-group m-3">
+        <p class="lead">
+            <button class="btn btn-outline-secondary mr-2" type="button" (click)="fetchAlbums()">
+                <span class="oi oi-reload"></span>
+            </button>
+            Select albums randomly among the albums of the {{ spotifyApi.userInfo?.savedTrackCount }} tracks saved in your Spotify library.
+        </p>
+    </div>
+    
+    <div class="card-group">
+        <div class="col-12 col-sm-6 col-md-3 col-xl-2" *ngFor="let album of albums;let index=index;">
+            <app-album-card [album]="album" [saved]="albumsSaved[index]"></app-album-card>
+        </div>
+    </div>
+</div>

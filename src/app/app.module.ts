@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { AlbumCardComponent } from './album-card/album-card.component';
 import { ArtistsComponent } from './artists/artists.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { TracksComponent } from './tracks/tracks.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ClipboardModule } from 'ngx-clipboard';
     HeaderComponent,
     AlbumCardComponent,
     ArtistsComponent,
+    TracksComponent,
   ],
   imports: [
     BrowserModule,
