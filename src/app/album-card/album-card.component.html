@@ -3,8 +3,8 @@
     <div class="btn-group" data-toggle="buttons">
       <a class="btn btn-dark" ngxClipboard [cbContent]="album.external_urls.spotify"><span class="oi oi-clipboard"></span></a>
       <a class="btn btn-success btn-block" (click)="play(album.uri)"><span class="oi oi-media-play"></span></a>
-      <a *ngIf="!saved" class="btn btn-secondary" (click)="toggleSave(album.id)"><span class="oi oi-heart"></span></a>
-      <a *ngIf="saved" class="btn btn-danger" (click)="toggleSave(album.id)"><span class="oi oi-heart"></span></a>
+      <a *ngIf="saved!=undefined && !saved" class="btn btn-secondary" (click)="toggleSave(album.id)"><span class="oi oi-heart"></span></a>
+      <a *ngIf="saved!=undefined && saved" class="btn btn-danger" (click)="toggleSave(album.id)"><span class="oi oi-heart"></span></a>
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ album.name }}</h5>
