@@ -28,11 +28,26 @@ export class HomeComponent implements OnInit {
             throw new Error('User should be connected to fetch albums.');
         }
 
+        let ids: number[] = [];
+        if (this.spotifyApi.userInfo.savedAlbumCount <= this.albumCount) {
+            for (let index = 0; index < this.albumCount; index++) {
+                ids.push(index);
+            }
+        } else {
+            let loop = 0;
+            while (ids.length < this.albumCount && loop < this.albumCount * 2) {
+                loop++;
+                const offset = Math.floor(Math.random() * this.spotifyApi.userInfo.savedAlbumCount);
+                if (!ids.includes(offset)) {
+                    ids.push(offset);
+                }
+            }
+        }
+
         this.albums = [];
 
-        for (let index = 0; index < this.albumCount; index++) {
-            const offset = Math.floor(Math.random() * this.spotifyApi.userInfo.savedAlbumCount);
-            const response = await this.spotifyApi.get<SpotifyApi.PagingObject<SpotifyApi.SavedAlbumObject>>(`me/albums?limit=1&offset=${offset}`);
+        for (let index = 0; index < ids.length; index++) {
+            const response = await this.spotifyApi.get<SpotifyApi.PagingObject<SpotifyApi.SavedAlbumObject>>(`me/albums?limit=1&offset=${ids[index]}`);
             this.albums.push(response.items[0]);
         }
     }
