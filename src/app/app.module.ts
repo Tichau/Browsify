@@ -8,6 +8,7 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { AlbumCardComponent } from './album-card/album-card.component';
+import { ArtistsComponent } from './artists/artists.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { AlbumCardComponent } from './album-card/album-card.component';
     HomeComponent,
     HeaderComponent,
     AlbumCardComponent,
+    ArtistsComponent,
   ],
   imports: [
     BrowserModule,

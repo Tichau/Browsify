@@ -7,7 +7,7 @@ import { SpotifyApiService } from '../spotify-api.service';
     styleUrls: ['./album-card.component.scss']
 })
 export class AlbumCardComponent implements OnInit {
-    @Input() public album!: SpotifyApi.AlbumObjectFull;
+    @Input() public album!: SpotifyApi.AlbumObjectSimplified;
     
     constructor(public spotifyApi: SpotifyApiService) { 
     }
