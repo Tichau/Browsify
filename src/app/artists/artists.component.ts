@@ -71,6 +71,10 @@ export class ArtistsComponent implements OnInit {
                 }
             }
 
+            if (availableAlbums.length == 0) {
+                continue;
+            }
+
             const savedAlbumResponse = await this.spotifyApi.get<SpotifyApi.CheckUserSavedAlbumsResponse>(`me/albums/contains?ids=${albumIds}`);
             for (let index = availableAlbums.length - 1; index >= 0; index--) {
                 if (savedAlbumResponse[index]) {
