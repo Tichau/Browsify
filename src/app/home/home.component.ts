@@ -10,11 +10,9 @@ import { SpotifyApiService } from '../spotify-api.service';
 })
 export class HomeComponent implements OnInit {
     public albums: SpotifyApi.SavedAlbumObject[];
-    public albumCount: number;
 
     constructor(public spotifyApi: SpotifyApiService) {
         this.albums = [];
-        this.albumCount = 12;
     }
 
     ngOnInit(): void {
@@ -29,13 +27,13 @@ export class HomeComponent implements OnInit {
         }
 
         let ids: number[] = [];
-        if (this.spotifyApi.userInfo.savedAlbumCount <= this.albumCount) {
-            for (let index = 0; index < this.albumCount; index++) {
+        if (this.spotifyApi.userInfo.savedAlbumCount <= environment.albumCount) {
+            for (let index = 0; index < environment.albumCount; index++) {
                 ids.push(index);
             }
         } else {
             let loop = 0;
-            while (ids.length < this.albumCount && loop < this.albumCount * 2) {
+            while (ids.length < environment.albumCount && loop < environment.albumCount * 2) {
                 loop++;
                 const offset = Math.floor(Math.random() * this.spotifyApi.userInfo.savedAlbumCount);
                 if (!ids.includes(offset)) {

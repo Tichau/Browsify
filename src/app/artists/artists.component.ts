@@ -9,11 +9,9 @@ import { SpotifyApiService } from '../spotify-api.service';
 })
 export class ArtistsComponent implements OnInit {
     public albums: SpotifyApi.AlbumObjectSimplified[];
-    public albumCount: number;
 
     constructor(public spotifyApi: SpotifyApiService) {
         this.albums = [];
-        this.albumCount = 12;
     }
 
     ngOnInit(): void {
@@ -35,7 +33,7 @@ export class ArtistsComponent implements OnInit {
         
         let ids: string[] = [];
         let loop = 0;
-        while (this.albums.length < this.albumCount && loop < this.albumCount * 2) {
+        while (this.albums.length < environment.albumCount && loop < environment.albumCount * 2) {
             loop++
             const offset = Math.floor(Math.random() * this.spotifyApi.userInfo.followedArtists.length); // offset does not works for artist
             const artistId = this.spotifyApi.userInfo.followedArtists[offset].id
