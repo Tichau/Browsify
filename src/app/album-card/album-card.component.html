@@ -1,6 +1,7 @@
 <div class="card text-white bg-dark mb-3 border-0">
     <img class="card-img-top" [src]="album.images[1].url" alt="Card image cap">
     <div class="btn-group" data-toggle="buttons">
+      <a class="btn btn-dark" ngxClipboard [cbContent]="album.external_urls.spotify"><span class="oi oi-clipboard"></span></a>
       <a class="btn btn-success btn-block" (click)="play(album.uri)"><span class="oi oi-media-play"></span></a>
       <a *ngIf="!saved" class="btn btn-secondary" (click)="toggleSave(album.id)"><span class="oi oi-heart"></span></a>
       <a *ngIf="saved" class="btn btn-danger" (click)="toggleSave(album.id)"><span class="oi oi-heart"></span></a>
