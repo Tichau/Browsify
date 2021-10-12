@@ -13,7 +13,8 @@ export class SpotifyApiService {
     private readonly clientId: string = '1091f9db9b7d4f51b47f57b3a766c0dc';
     private readonly scopes: string[] = [
         "user-library-read",
-        "user-modify-playback-state"
+        "user-modify-playback-state",
+        "user-follow-read",
     ]
 
     private accessToken: string | null;
@@ -79,6 +80,40 @@ export class SpotifyApiService {
 
             throw new Error(`Error while tring to get uri '${uri}'`);
         }
+    }
+
+    public async refreshFollowedArtists() {
+        if (this.userInfo == null) {
+            throw new Error("UserInfo must exists at this point.");
+        }
+
+        this.userInfo.followedArtists = [];
+
+        let last = null;
+        let fetchCount = 0;
+        {
+            const response = await this.get<SpotifyApi.UsersFollowedArtistsResponse>('me/following?type=artist&limit=50');
+            for (let index = 0; index < response.artists.items.length; index++) {
+                const artist = response.artists.items[index];
+                this.userInfo.followedArtists.push(new ArtistSummary(artist));
+                last = artist.id;
+            }
+
+            if (response.artists.total) {
+                fetchCount = Math.floor(response.artists.total / 50);
+            }
+        }
+        
+        for (let fetchIndex = 0; fetchIndex < fetchCount; fetchIndex++) {
+            const response: SpotifyApi.UsersFollowedArtistsResponse = await this.get<SpotifyApi.UsersFollowedArtistsResponse>(`me/following?type=artist&limit=50&after=${last}`);
+            for (let index = 0; index < response.artists.items.length; index++) {
+                const artist = response.artists.items[index];
+                this.userInfo.followedArtists.push(new ArtistSummary(artist));
+                last = artist.id;
+            }
+        }
+
+        window.localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
     }
 
     public disconnect() {
@@ -223,9 +258,9 @@ export class SpotifyApiService {
         }
 
         // Refresh and cache number of saved albums.
-        const response = await this.get<SpotifyApi.PagingObject<SpotifyApi.SavedAlbumObject>>('me/albums?limit=1');
-        this.userInfo.savedAlbumCount = response.total;
-
+        const savedAlbumResponse = await this.get<SpotifyApi.PagingObject<SpotifyApi.SavedAlbumObject>>('me/albums?limit=1');
+        this.userInfo.savedAlbumCount = savedAlbumResponse.total;
+        
         window.localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
     }
 }
@@ -235,9 +270,22 @@ export class UserInfo {
     public imageUrl: string | undefined;
     public savedAlbumCount: number;
 
+    public followedArtists: ArtistSummary[];
+
     constructor(userName: string, imageUrl?: string) {
         this.name = userName;
         this.imageUrl = imageUrl;
         this.savedAlbumCount = NaN;
+        this.followedArtists = [];
+    }
+}
+
+export class ArtistSummary {
+    public id: string;
+    public name: string;
+
+    constructor(artist: SpotifyApi.ArtistObjectFull) {
+        this.id = artist.id;
+        this.name = artist.name;
     }
 }
