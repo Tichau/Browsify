@@ -1,5 +1,5 @@
 {
-    "name": "spotify-browser",
+    "name": "browsify",
     "version": "0.3.1",
     "scripts": {
         "ng": "ng",

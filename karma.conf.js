@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/spotify-browser'),
+      dir: require('path').join(__dirname, './coverage/browsify'),
       subdir: '.',
       reporters: [
         { type: 'html' },

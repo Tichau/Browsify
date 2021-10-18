@@ -46,7 +46,7 @@ fi
 
 echo ""
 echo "Deploy new version..."
-scp -r dist/spotify-browser/** pi@alfredo:/var/www/html/browsify
+scp -r dist/browsify/** pi@alfredo:/var/www/html/browsify
 if [ $? != 0 ]
 then
     echo "Failed to deploy on server."
