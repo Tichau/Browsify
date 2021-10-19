@@ -8,7 +8,7 @@
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ album.name }}</h5>
-      <p class="card-text"><span *ngFor="let artist of album.artists">{{ artist.name }} </span></p>
+      <p class="card-text"><span class="text-muted mr-2">{{ album.release_date.split('-')[0] }}</span><span *ngFor="let artist of album.artists">{{ artist.name }}&nbsp;</span></p>
     </div>
     <div *ngIf="footer" class="card-footer text-muted">
       {{ footer }}
