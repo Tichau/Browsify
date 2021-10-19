@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AlbumsComponent } from './albums/albums.component';
 import { ArtistsComponent } from './artists/artists.component';
 
 import { AuthenticationComponent } from './authentication/authentication.component';
@@ -12,7 +13,7 @@ const routes: Routes = [
   { path: 'auth', component: AuthenticationComponent },
   { path: 'callback', component: AuthenticationComponent },
   { path: 'tracks', component: TracksComponent },
-  { path: 'albums', component: HomeComponent },
+  { path: 'albums', component: AlbumsComponent },
   { path: 'artists', component: ArtistsComponent },
   { path: 'related', component: RelatedComponent },
 ];
