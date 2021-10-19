@@ -5,7 +5,7 @@
     <span class="text-muted"><small>{{ appVersion }}</small></span>
   </a>
 
-  <div *ngIf="spotifyApi.isAuthenticated(); else loggedOut" class="container-fluid">
+  <ng-container *ngIf="spotifyApi.isAuthenticated(); else loggedOut" class="container-fluid">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -35,7 +35,7 @@
       <button class="btn btn-outline-danger" (click)="spotifyApi.disconnect()"><span class="oi oi-power-standby"
           title="Disconnect"></span></button>
     </div>
-  </div>
+  </ng-container>
 </nav>
 
 <ng-template #loggedOut>

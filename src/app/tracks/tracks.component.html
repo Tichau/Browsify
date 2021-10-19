@@ -9,7 +9,7 @@
     </div>
     
     <div class="card-group">
-        <div class="col-12 col-sm-6 col-md-3 col-xl-2" *ngFor="let album of albums;let index=index;">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let album of albums;let index=index;">
             <app-album-card [album]="album" [saved]="albumsSaved[index]"></app-album-card>
         </div>
     </div>
