@@ -11,6 +11,7 @@ import { AlbumCardComponent } from './album-card/album-card.component';
 import { ArtistsComponent } from './artists/artists.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { TracksComponent } from './tracks/tracks.component';
+import { RelatedComponent } from './related/related.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { TracksComponent } from './tracks/tracks.component';
     AlbumCardComponent,
     ArtistsComponent,
     TracksComponent,
+    RelatedComponent,
   ],
   imports: [
     BrowserModule,
