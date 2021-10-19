@@ -140,6 +140,50 @@ export class SpotifyApiService {
         window.localStorage.setItem('userInfo', JSON.stringify(this.userInfo));
     }
 
+    public async getAlbums(artistId: string, savedFilter: boolean | undefined) {
+        let availableAlbums : SpotifyApi.AlbumObjectSimplified[] = [];
+        let albumIds = '';
+        const albumResponse = await this.get<SpotifyApi.PagingObject<SpotifyApi.AlbumObjectSimplified>>(`artists/${artistId}/albums?include_groups=album&limit=50`);
+        for (let index = 0; index < albumResponse.items.length; index++) {
+            const album = albumResponse.items[index];
+            if (album.available_markets && album.available_markets?.indexOf('FR') < 0) {
+                continue
+            }
+
+            let twinFound = false;
+            for (var twinIndex = 0; twinIndex < availableAlbums.length; twinIndex++) {
+                if (availableAlbums[twinIndex].name == album.name) {
+                    twinFound = true;
+                    break;
+                }
+            }
+
+            if (twinFound) {
+                continue;
+            }
+
+            availableAlbums.push(album);
+            if (albumIds !== '') {
+                albumIds += ',';
+            }
+
+            albumIds += album.id;
+        }
+
+        if (savedFilter != undefined) {
+            const savedAlbumResponse = await this.get<SpotifyApi.CheckUserSavedAlbumsResponse>(`me/albums/contains?ids=${albumIds}`);
+            for (let index = availableAlbums.length - 1; index >= 0; index--) {
+                if (savedAlbumResponse[index] !== savedFilter) {
+                    availableAlbums.splice(index, 1);
+                }
+            }
+        }
+
+        return availableAlbums;
+    }
+
+    /// Authentication
+
     public disconnect() {
         this.accessToken = null;
         window.localStorage.removeItem('accessToken');

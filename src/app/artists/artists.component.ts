@@ -35,51 +35,10 @@ export class ArtistsComponent implements OnInit {
         let loop = 0;
         while (this.albums.length < environment.albumCount && loop < environment.albumCount * 2) {
             loop++
-            const offset = Math.floor(Math.random() * this.spotifyApi.userInfo.followedArtists.length); // offset does not works for artist
+            const offset = Math.floor(Math.random() * this.spotifyApi.userInfo.followedArtists.length);
             const artistId = this.spotifyApi.userInfo.followedArtists[offset].id
             
-            let availableAlbums = [];
-            let albumIds = '';
-            {
-                const albumResponse = await this.spotifyApi.get<SpotifyApi.PagingObject<SpotifyApi.AlbumObjectSimplified>>(`artists/${artistId}/albums?include_groups=album&limit=50`);
-                for (let index = 0; index < albumResponse.items.length; index++) {
-                    const album = albumResponse.items[index];
-                    if (album.available_markets && album.available_markets?.indexOf('FR') < 0) {
-                        continue
-                    }
-
-                    let twinFound = false;
-                    for (var twinIndex = 0; twinIndex < availableAlbums.length; twinIndex++) {
-                        if (availableAlbums[twinIndex].name == album.name) {
-                            twinFound = true;
-                            break;
-                        }
-                    }
-
-                    if (twinFound) {
-                        continue;
-                    }
-
-                    availableAlbums.push(album);
-                    if (albumIds !== '') {
-                        albumIds += ',';
-                    }
-
-                    albumIds += album.id;
-                }
-            }
-
-            if (availableAlbums.length == 0) {
-                continue;
-            }
-
-            const savedAlbumResponse = await this.spotifyApi.get<SpotifyApi.CheckUserSavedAlbumsResponse>(`me/albums/contains?ids=${albumIds}`);
-            for (let index = availableAlbums.length - 1; index >= 0; index--) {
-                if (savedAlbumResponse[index]) {
-                    availableAlbums.splice(index, 1);
-                }
-            }
-
+            let availableAlbums = await this.spotifyApi.getAlbums(artistId, false);
             while (availableAlbums.length > 0) {
                 const offset = Math.floor(Math.random() * availableAlbums.length);
                 if (!ids.includes(availableAlbums[offset].id)) {
