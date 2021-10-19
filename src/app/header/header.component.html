@@ -4,30 +4,35 @@
         Browsify
         <span class="text-muted"><small>{{ appVersion }}</small></span>
     </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <ul class="navbar-nav mr-auto">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" routerLink="artists" routerLinkActive="active">Artists</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="albums" routerLinkActive="active">Albums</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="tracks" routerLinkActive="active">Tracks</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="related" routerLinkActive="active">Related</a>
-            </li>
-        </ul>
-    </ul>
-
-    <button *ngIf="!spotifyApi.isAuthenticated()" class="btn btn-outline-success" routerLink="/auth">Connect</button>
-    <div *ngIf="spotifyApi.isAuthenticated()">
-        <span *ngIf="spotifyApi.userInfo" class="navbar-text mr-3">
-            <img *ngIf="spotifyApi.userInfo.imageUrl" class="mr-2 circle-border" [src]="spotifyApi.userInfo.imageUrl" width="40" height="40" alt="">
-            {{ spotifyApi.userInfo.name }}
-        </span>
-        <button class="btn btn-outline-danger" (click)="spotifyApi.disconnect()"><span class="oi oi-power-standby" title="Disconnect"></span></button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" routerLink="artists" routerLinkActive="active">Artists</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="albums" routerLinkActive="active">Albums</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="tracks" routerLinkActive="active">Tracks</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="related" routerLinkActive="active">Related</a>
+              </li>
+          </ul>
+      </ul>
+      
+      <button *ngIf="!spotifyApi.isAuthenticated()" class="btn btn-outline-success" routerLink="/auth">Connect</button>
+      <div *ngIf="spotifyApi.isAuthenticated()">
+          <span *ngIf="spotifyApi.userInfo" class="navbar-text mr-3">
+              <img *ngIf="spotifyApi.userInfo.imageUrl" class="mr-2 circle-border" [src]="spotifyApi.userInfo.imageUrl" width="40" height="40" alt="">
+              {{ spotifyApi.userInfo.name }}
+          </span>
+          <button class="btn btn-outline-danger" (click)="spotifyApi.disconnect()"><span class="oi oi-power-standby" title="Disconnect"></span></button>
+      </div>
     </div>
 </nav>
