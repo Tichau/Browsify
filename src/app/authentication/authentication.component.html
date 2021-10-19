@@ -1,1 +1,3 @@
-<p class="text-danger">{{ status }}</p>
+<div *ngIf="status" class="alert alert-danger m-5" role="alert">
+    {{ status }}
+</div>

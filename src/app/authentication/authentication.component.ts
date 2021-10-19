@@ -23,7 +23,11 @@ export class AuthenticationComponent implements OnInit {
         
         let state = this.router.url;
         if (state.startsWith("/auth")) {
-            this.spotifyApi.askForCode(environment.redirectUri);
+            try {
+                this.spotifyApi.askForCode(environment.redirectUri);
+            } catch(error) {
+                this.status = error as string;
+            }
         } else if (state.startsWith("/callback")) {
             this.route.queryParamMap.subscribe(paramMap => {
                 let state = paramMap.get('state');
