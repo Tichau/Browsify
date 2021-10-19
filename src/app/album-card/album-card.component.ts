@@ -9,6 +9,7 @@ import { SpotifyApiService } from '../spotify-api.service';
 export class AlbumCardComponent implements OnInit {
     @Input() public album!: SpotifyApi.AlbumObjectSimplified;
     @Input() public saved: boolean | undefined;
+    @Input() public footer: string | undefined;
     
     constructor(public spotifyApi: SpotifyApiService) { 
     }

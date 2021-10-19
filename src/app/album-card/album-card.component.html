@@ -10,4 +10,7 @@
       <h5 class="card-title">{{ album.name }}</h5>
       <p class="card-text"><span *ngFor="let artist of album.artists">{{ artist.name }} </span></p>
     </div>
+    <div *ngIf="footer" class="card-footer text-muted">
+      {{ footer }}
+    </div>
 </div>
