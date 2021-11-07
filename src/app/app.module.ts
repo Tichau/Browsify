@@ -13,6 +13,8 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { TracksComponent } from './tracks/tracks.component';
 import { RelatedComponent } from './related/related.component';
 import { AlbumsComponent } from './albums/albums.component';
+import { IndexComponent } from './index/index.component';
+import { ArtistComponent } from './index/artist/artist.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +27,14 @@ import { AlbumsComponent } from './albums/albums.component';
     TracksComponent,
     RelatedComponent,
     AlbumsComponent,
+    IndexComponent,
+    ArtistComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ClipboardModule
+    ClipboardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

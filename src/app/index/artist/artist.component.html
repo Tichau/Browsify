@@ -1,0 +1,33 @@
+<div *ngIf="artist" class="container-fluid mt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/index">Index</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{ artist.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-auto">
+            <img [src]="artist.images[2].url" class="rounded" alt="Artist image">
+        </div>
+        <div class="col-auto mr-auto">
+            <div class="row">
+                <h1 class="display-1">
+                    {{ artist.name }}
+                </h1>
+                <div class="col mt-5">
+                    <a class="btn btn-light" ngxClipboard [cbContent]="artist.external_urls.spotify"><span class="oi oi-clipboard"></span></a>
+                </div>
+            </div>
+            <h3 class="row">
+                <small class="text-muted">{{ artist.genres.concat() }}</small>
+            </h3>
+        </div>
+    </div>
+
+    <div class="card-group mt-3" *ngIf="albums">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let album of albums;let index=index;">
+            <app-album-card [album]="album" [saved]="albumsSaved[index]"></app-album-card>
+        </div>
+    </div>
+</div>
