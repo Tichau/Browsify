@@ -6,6 +6,7 @@ import packageInfo from '../../package.json';
 
 export const environment = {
   production: false,
+  spotifyClientId: '1091f9db9b7d4f51b47f57b3a766c0dc',
   redirectUri: 'http://localhost:4200/callback/',
   version: packageInfo.version,
   albumCount: 2,

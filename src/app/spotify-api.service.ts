@@ -3,6 +3,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SHA256 } from 'crypto-js';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,6 @@ import { SHA256 } from 'crypto-js';
 export class SpotifyApiService {
     public userInfo: UserInfo | null;
 
-    private readonly clientId: string = '1091f9db9b7d4f51b47f57b3a766c0dc';
     private readonly scopes: string[] = [
         "user-library-read",
         "user-library-modify",
@@ -206,7 +206,7 @@ export class SpotifyApiService {
         // Step 2: Construct the authorization URI
         const encodedUri = encodeURIComponent(redirectUri);
         const encodedScopes = encodeURIComponent(this.scopes.join(' '));
-        var uri = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&response_type=code&redirect_uri=${encodedUri}&code_challenge_method=S256&code_challenge=${codeChallenge}&scope=${encodedScopes}&state=${authState}`;
+        var uri = `https://accounts.spotify.com/authorize?client_id=${environment.spotifyClientId}&response_type=code&redirect_uri=${encodedUri}&code_challenge_method=S256&code_challenge=${codeChallenge}&scope=${encodedScopes}&state=${authState}`;
         window.location.href = uri;
     }
 
@@ -220,7 +220,7 @@ export class SpotifyApiService {
             .set('Content-Type', 'application/x-www-form-urlencoded')
 
         let body = new URLSearchParams()
-        body.set('client_id', this.clientId);
+        body.set('client_id', environment.spotifyClientId);
         body.set('grant_type', 'authorization_code');
         body.set('code', code);
         body.set('redirect_uri', redirectUri);
@@ -243,7 +243,7 @@ export class SpotifyApiService {
             .set('Content-Type', 'application/x-www-form-urlencoded')
 
         let body = new URLSearchParams()
-        body.set('client_id', this.clientId);
+        body.set('client_id', environment.spotifyClientId);
         body.set('grant_type', 'refresh_token');
         body.set('refresh_token', this.refreshToken);
 
