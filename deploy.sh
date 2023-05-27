@@ -37,7 +37,7 @@ echo "Deploy..."
 echo ""
 
 echo "Clean old version..."
-ssh pi@alfredo "cd /var/www/html/browsify && rm -rf *"
+ssh bot@groot "cd /var/www/browsify && rm -rf *"
 if [ $? != 0 ]
 then
     echo "Failed to connect to server."
@@ -46,7 +46,7 @@ fi
 
 echo ""
 echo "Deploy new version..."
-scp -r dist/browsify/** pi@alfredo:/var/www/html/browsify
+scp -r dist/browsify/** bot@groot:/var/www/browsify
 if [ $? != 0 ]
 then
     echo "Failed to deploy on server."
