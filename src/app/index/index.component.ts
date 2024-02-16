@@ -29,8 +29,25 @@ export class IndexComponent implements OnInit {
             await this.spotifyApi.refreshFollowedArtists();
         }
         
-        let sortedArtists: ArtistSummary[] = Object.assign([], this.spotifyApi.userInfo.followedArtists);;
-        sortedArtists.sort((left, right) => left.name.localeCompare(right.name));
+        var startWithNumber = new RegExp(/^\d/);
+        let sortedArtists: ArtistSummary[] = Object.assign([], this.spotifyApi.userInfo.followedArtists);
+        sortedArtists.sort((left, right) => {
+            var leftStartWithNumber = startWithNumber.test(left.name);
+            var rightStartWithNumber = startWithNumber.test(right.name);
+            if (leftStartWithNumber && !rightStartWithNumber) {
+                // Put numbers at the end so sorting algorithm works correctly
+                return 1;
+            }
+
+            if (!leftStartWithNumber && rightStartWithNumber) {
+                // Put numbers at the end so sorting algorithm works correctly
+                return -1;
+            }
+            
+            return left.name.localeCompare(right.name)
+        });
+
+        console.log(sortedArtists)
 
         let startIndex = 0;
         for (let index = 'A'.charCodeAt(0); index < 'X'.charCodeAt(0); index++) {
@@ -48,10 +65,14 @@ export class IndexComponent implements OnInit {
         for (; index < sortedArtists.length; index++) {
             const artist = sortedArtists[index];
             const upperName = artist.name.toLocaleUpperCase();
+
             let valid = false;
             switch (categoryName) {
                 case 'X-Z':
                     valid = upperName.startsWith('X') || upperName.startsWith('Y') || upperName.startsWith('Z');
+                    break;
+                case 'S':
+                    valid = upperName.startsWith('S') || upperName.startsWith('Ş');
                     break;
                 case '#':
                     valid = true;
