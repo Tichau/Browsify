@@ -24,3 +24,4 @@ To host it you need to:
 * Edit the file `src\environments\environment.prod.ts`
   * Paste your clientId in the variable spotifyClientId
   * Change the redirectUri to match your domain name
+* Use the deploy script to deploy it on a branch of your repository `./deploy.sh gh-pages`. You can for example deploy it using GitHub pages easily.
