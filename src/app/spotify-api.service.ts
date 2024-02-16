@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { SHA256 } from 'crypto-js';
 import { environment } from 'src/environments/environment';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -45,7 +46,7 @@ export class SpotifyApiService {
             .set('Authorization', `Bearer ${this.accessToken}`);
 
         try {
-            const response = await this.http.get<T>(`https://api.spotify.com/v1/${uri}`, { headers }).toPromise();
+            const response = await firstValueFrom(this.http.get<T>(`https://api.spotify.com/v1/${uri}`, { headers }));
             return response;
         } catch (_e: unknown) {
             const error = _e as HttpErrorResponse;
