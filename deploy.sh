@@ -1,3 +1,10 @@
+if (( $# != 1 )); then
+    >&2 echo "usage: deploy <deploy-branch>"
+    exit
+fi
+
+deployBranch=$1
+
 echo "Increment build number..."
 
 json=`cat package.json`
@@ -28,7 +35,7 @@ npm run build
 
 if [ $? != 0 ]
 then
-    echo "Build failed."
+    >&2 echo "Build failed."
     exit 1
 fi
 
@@ -36,22 +43,27 @@ echo ""
 echo "Deploy..."
 echo ""
 
-echo "Clean old version..."
-ssh bot@groot "cd /var/www/browsify && rm -rf *"
+deployDir=`mktemp -d`
+
+echo "Clone $deployBranch repository: $deployDir"
+git clone -l -s -b $deployBranch . $deployDir
 if [ $? != 0 ]
 then
-    echo "Failed to connect to server."
+    >&2 echo "Failed to checkout deploy branch '$deployBranch'."
     exit 2
 fi
 
-echo ""
-echo "Deploy new version..."
-scp -r dist/browsify/** bot@groot:/var/www/browsify
-if [ $? != 0 ]
-then
-    echo "Failed to deploy on server."
-    exit 3
-fi
+echo "Copy files..."
+rm -r $deployDir/*
+cp -r dist/browsify/** $deployDir
+
+echo "Push to server..."
+git --git-dir=$deployDir/.git --work-tree=$deployDir add .
+git --git-dir=$deployDir/.git --work-tree=$deployDir commit -m "Deploy v$newVersion"
+git --git-dir=$deployDir/.git --work-tree=$deployDir push origin $deployBranch
+
+echo "Clean temporary repository..."
+rm -rf $deployDir
 
 echo ""
 echo "Commit..."
