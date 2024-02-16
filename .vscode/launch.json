@@ -5,9 +5,9 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "edge",
+            "type": "vscode-edge-devtools.debug",
             "request": "launch",
-            "name": "Launch Edge against localhost",
+            "name": "Launch Microsoft Edge and open the Edge DevTools",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}"
         }
