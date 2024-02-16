@@ -54,7 +54,7 @@ then
 fi
 
 echo "Copy files..."
-rm -r $deployDir/*
+find $deployDir -type f -not -name 'CNAME' -delete
 cp -r dist/browsify/** $deployDir
 
 echo "Push to server..."
