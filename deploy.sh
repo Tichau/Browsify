@@ -29,46 +29,15 @@ json=${json/\"version\": \"$version\"/\"version\": \"$newVersion\"}
 echo "$json" > package.json
 
 echo ""
-echo "Build version $newVersion..."
+echo "Build and deploy version $newVersion..."
 
-npm run build
+ng deploy --dir=dist/browsify/ --cname=browsify.aallard.net --branch=$deployBranch --message="Deploy v$newVersion"
 
 if [ $? != 0 ]
 then
     >&2 echo "Build failed."
     exit 1
 fi
-
-echo ""
-echo "Deploy..."
-echo ""
-
-deployDir=`mktemp -d`
-
-echo "Clone $deployBranch repository: $deployDir"
-git clone -l -s -b $deployBranch . $deployDir
-if [ $? != 0 ]
-then
-    >&2 echo "Failed to checkout deploy branch '$deployBranch'."
-    exit 2
-fi
-
-echo "Copy files..."
-find $deployDir -type f -not -name '.git' -not -name 'CNAME' -not -path '*/[@.]*' -delete
-cp -r dist/browsify/** $deployDir
-
-echo "Push to deploy branch..."
-git --git-dir=$deployDir/.git --work-tree=$deployDir add .
-git --git-dir=$deployDir/.git --work-tree=$deployDir commit -m "Deploy v$newVersion"
-git --git-dir=$deployDir/.git --work-tree=$deployDir push origin $deployBranch
-if [ $? != 0 ]
-then
-    >&2 echo "Failed to push to deploy branch."
-    exit 3
-fi
-
-echo "Clean temporary repository..."
-rm -rf $deployDir
 
 echo ""
 echo "Commit..."
