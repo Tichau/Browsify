@@ -7,6 +7,8 @@ Also Spotify do not propose old known things to you and it's always nice to re-l
 Browsify is very simple, it proposes 10 albums to listen by randomly selecting it in your library.
 You can then choose what you want to listen depending on your mood.
 
+![Browsify screenshot](screenshot.png)
+
 ## Setup working environment
 
 Install node.js (on Windows `winget install OpenJS.NodeJS`)
