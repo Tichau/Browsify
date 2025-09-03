@@ -24,6 +24,8 @@ To host it you need to:
 * Create a Spotify Application [here](https://developer.spotify.com/dashboard/)
 * Once created you will have a cliendId, copy it.
 * Edit the file `src\environments\environment.prod.ts`
-  * Paste your clientId in the variable spotifyClientId
-  * Change the redirectUri to match your domain name
+  * Paste your clientId in the variable spotifyClientId.
+  * Change the redirectUri to match your domain name.
+  * Register your callback uri in Spotify Application.
+* Uncomment the right line in `deploy.sh` depending on if you deploy on default or custom domain on github pages (don't forget to change the repository name or custom domain name).
 * Use the deploy script to deploy it on a branch of your repository `./deploy.sh gh-pages`. You can for example deploy it using GitHub pages easily.
