@@ -33,7 +33,7 @@ echo "$json" >package.json
 echo ""
 echo "Build and deploy version $newVersion..."
 
-ng deploy --dir=dist/browsify/ --cname=browsify.aallard.net --branch=$deployBranch --message="Deploy v$newVersion"
+ng deploy --dir=dist/browsify/ --cname=tichau.github.io/Browsify/ --branch=$deployBranch --message="Deploy v$newVersion"
 
 if [ $? != 0 ]; then
   >&2 echo "Build failed."
