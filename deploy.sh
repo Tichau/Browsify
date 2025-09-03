@@ -33,7 +33,11 @@ echo "$json" >package.json
 echo ""
 echo "Build and deploy version $newVersion..."
 
-npm run ng deploy --dir=dist/browsify/ --cname=tichau.github.io/Browsify/ --branch=$deployBranch --message="Deploy v$newVersion"
+# To uncomment if you deploy on github pages with default configuration
+npm run ng deploy -- --dir=dist/browsify/ --base-href=/Browsify/ --branch=$deployBranch --message="Deploy v$newVersion"
+
+# To uncomment if you deploy on github pages with a custom domain
+# npm run ng deploy -- --dir=dist/browsify/ --cname=browsify.aallard.me --branch=$deployBranch --message="Deploy v$newVersion"
 
 if [ $? != 0 ]; then
   >&2 echo "Build failed."
