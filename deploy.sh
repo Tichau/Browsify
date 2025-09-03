@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if (($# != 1)); then
   >&2 echo "usage: deploy <deploy-branch>"
   exit
